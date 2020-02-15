@@ -56,10 +56,6 @@ async def on_message(message):
         
     await bot.process_commands(message)                    # This is necessary to allow bot commands to come through (such as music), since we have overwritten the default on_message event handling https://stackoverflow.com/questions/49331096/why-does-on-message-stop-commands-from-working
 
-@bot.event
-async def on_voice_state_update(member, before, after):
-    print(after)
-
 #------------------------------Mp3 command zone!-----------------------------
 
 #Washington

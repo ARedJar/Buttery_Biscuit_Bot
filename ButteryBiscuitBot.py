@@ -114,7 +114,6 @@ bot.run(token)
 
 
 #TODO:
-    #Get some sort of switch implementated for the on_message commands, rather than current if / elif block (probably needs to be a dictionary, python doesn't support switch / catch blocks).
     #Add uwu-translator function
     #Mess w/ Bobby somehow
     #Rename washington to 'he's coming'? Has punctuation and a space so probably horrible, but I want it to be invokable that way >.>

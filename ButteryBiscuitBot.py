@@ -46,15 +46,25 @@ async def on_ready():
 async def on_message(message):
     if message.author == bot.user:                         # Prevent the bot from replying to itself ad-infinitum, in case we ever create a recursive reply.
         return
+    
+    words = message.content.lower().split(' ')
+    for word in words:
+        try:
+            resp = callResponseDict[word]
+            await message.channel.send(resp)
+        except:
+            pass
 
-    if 'hell' in message.content.lower():                  # Works anywhere in the string (.lower) :D
-        await message.channel.send('Yeah Dog!')
-    elif message.content == 'uwu':                         # I kinda want to make this a function instead to 'uwu'-ize a message...
-        await message.channel.send('Hewwwwoo~~')
-    elif message.content == 'bb':                          # Surely we can come up with something more annoying, maybe it can do something when he logs in? :D
-        await message.channel.send('BOBBBBBYYYYYYY')
-        
-    await bot.process_commands(message)                    # This is necessary to allow bot commands to come through (such as music), since we have overwritten the default on_message event handling https://stackoverflow.com/questions/49331096/why-does-on-message-stop-commands-from-working
+    # This is necessary to allow bot commands to come through (such as music), since we have overwritten the default on_message event handling https://stackoverflow.com/questions/49331096/why-does-on-message-stop-commands-from-working
+    await bot.process_commands(message)
+
+callResponseDict = {
+    'hell': 'Yeah Dog!',
+    'uwu': 'Hewwwwoo~~',
+    'bb': 'BOBBBBBYYYYYYY',
+    'bee': 'BEE-THEMED STRIPPERS!!',
+    'kiddy': 'hey there ya dingus'
+}
 
 #------------------------------Mp3 command zone!-----------------------------
 

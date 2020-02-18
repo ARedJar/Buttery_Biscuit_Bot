@@ -101,14 +101,15 @@ async def washington(context):
     pass_context = True,
 )
 async def biscuit(context):
-    # Grab the user who sent the command and the voice channel they are in
-    user = context.message.author
-    voice_channel = user.voice.channel
+    await playMP3(beautifulSongsDict['washington'], validChannelNames, context)
+
+async def playMP3(mp3FilePath, channelNames, context):
     # Only play music if user is in a voice channel
-    if voice_channel != None and voice_channel.name != 'AFK':
+    if await isUserInChannel(context, channelNames):
         # Connect to voice chat and play .mp3
+        voice_channel = getCurrentVoiceChannelInstance(context)
         vc = await voice_channel.connect()                                                                       #Returns an object of the voice channel that it has connected to.
-        vc.play(discord.FFmpegPCMAudio('./Music/ButteryBiscuitBase.mp3'), after = lambda e: print('done', e))    #Can add error handling to the 'after' portion.. I believe..
+        vc.play(discord.FFmpegPCMAudio(mp3FilePath), after = lambda e: print('done', e))    #Can add error handling to the 'after' portion.. I believe..
         # Wait for music to finish
         while vc.is_playing():
             await asyncio.sleep(1)
@@ -118,6 +119,28 @@ async def biscuit(context):
     else:
         await context.message.channel.send('User is not in a voice channel.')
 
+async def isUserInChannel(context, channelNames):
+    # Grab the user who sent the command and the voice channel they are in
+    voice_channel = await getCurrentVoiceChannelInstance(context)
+    if voice_channel != None and voice_channel.name in channelNames:
+        return True
+    else:
+        return False
+
+async def getCurrentVoiceChannelInstance(context):
+    user = context.message.author
+    voice_channel = user.voice.channel
+    return voice_channel
+
+beautifulSongsDict = {
+    'biscuit': './Music/ButteryBiscuitBase.mp3',
+    'washington': './Music/Washington.mp3'
+}
+
+validChannelNames = [
+    'Bobby Lobby',
+    'General'
+]
 
 #-----------------------------Actually run the bot----------------------------
 bot.run(token)

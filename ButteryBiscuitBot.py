@@ -47,13 +47,10 @@ async def on_message(message):
     if message.author == bot.user:                         # Prevent the bot from replying to itself ad-infinitum, in case we ever create a recursive reply.
         return
     
-    words = message.content.lower().split(' ')
-    for word in words:
-        try:
-            resp = callResponseDict[word]
+    for key in callResponseDict:
+        if key in message.content.lower():
+            resp = callResponseDict[key]
             await message.channel.send(resp)
-        except:
-            pass
 
     # This is necessary to allow bot commands to come through (such as music), since we have overwritten the default on_message event handling https://stackoverflow.com/questions/49331096/why-does-on-message-stop-commands-from-working
     await bot.process_commands(message)

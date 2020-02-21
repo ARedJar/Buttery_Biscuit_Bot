@@ -19,6 +19,8 @@ Or for the server:
 python3.8 ButteryBiscuitBot.py
 """
 
+# Version 0.1.1.4
+
 import os
 
 import discord

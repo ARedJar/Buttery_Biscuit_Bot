@@ -37,7 +37,7 @@ BOT = commands.Bot(command_prefix="!")
 
 # This is the top version number, only thing that needs to be updated for !version to be up to
 # date. Please edit this anytime an update is made!
-VNUMBER = '0.0.1.10 alpha'
+VNUMBER = '0.0.1.11 alpha'
 
 # same as VNUMBER this is where the text for patch notes goes, please update this (also don't
 # let it get too long maybe only the most recent build?)
@@ -168,7 +168,7 @@ async def chrispenis(channel):
     """
     ChrisPenis
     """
-    await channel.send(file=discord.File('/ButteryBiscuitBot/pythbot/pictures/chrispenis.jpg'))
+    await channel.send(file=discord.File('/pythbot/Buttery_Biscuit_Bot/pictures/chrispenis.jpg'))
     # this sends the file directly to discord, there is a way to do so with filelike objects
     # (dunno what those are) but I couldn't get it to work
 
@@ -182,7 +182,7 @@ async def biscuitface(channel):
     """
     biscuitfaces
     """
-    await channel.send(file=discord.File('/ButteryBiscuitBot/pythbot/pictures/biscuitface.jpg'))
+    await channel.send(file=discord.File('/pythbot/Buttery_Biscuit_Bot/pictures/biscuitface.jpg'))
 
 @BOT.command(
     name='pepperoni',
@@ -194,7 +194,7 @@ async def pepperoni(channel):
     """
     pepperoni
     """
-    await channel.send(file=discord.File('/ButteryBiscuitBot/pythbot/pictures/pepperoni.png'))
+    await channel.send(file=discord.File('/pythbot/Buttery_Biscuit_Bot/pictures/pepperoni.png'))
 
 
 #------------------------------Mp3 command zone!-----------------------------
@@ -332,6 +332,19 @@ async def shortbiscuit(context):
     """
     await play_mp3(BEAUTIFULSONGS['shortbiscuit'], VALIDTEXTCHANNELS, context)
 
+@BOT.command(
+    name='snout',
+    aliases=['Snout', 'Sing', 'singforme', 'sing', 'SingForMe'],
+    description='phantom of the opera snout',
+    pass_context=True,
+)
+async def snout(context):
+    """
+    plays the wierd snout phantom of the opera thing
+    """
+    await play_mp3(BEAUTIFULSONGS['snout'], VALIDTEXTCHANNELS, context)
+
+
 async def play_mp3(mp3_file_path, channel_names, context):
     """
     Plays an mp3 that passed as an arg
@@ -367,8 +380,8 @@ async def play_mp3(mp3_file_path, channel_names, context):
         # Disconnect after music stops
         voice_channel_connection.stop()
         await voice_channel_connection.disconnect()
-    else:
-        await context.message.channel.send('User is not in a voice channel.')
+    # else:
+        # await context.message.channel.send('User is not in a voice channel.')
 
 async def is_user_in_channel(context, channel_names):
     """
@@ -390,11 +403,22 @@ async def is_user_in_channel(context, channel_names):
     ------
     Does Not Error
     """
-    voice_channel = await get_current_voice_channel_instance(context)
-    if voice_channel is not None and voice_channel.name in channel_names:
+    
+    
+    try:
+        voice_channel = await get_current_voice_channel_instance(context)
+    except AttributeError:
+        #if user is not in a voice channel assign voice_channel to None so the lower if statement handles the error correctly
+        voice_channel = None
+        await context.message.channel.send('User is not in a voice channel.')
+        return False
+    if voice_channel.name in channel_names:
         return True
     else:
+        await context.message.channel.send('I cannot join that channel idiot')
         return False
+
+
 
 async def get_current_voice_channel_instance(context):
     """
@@ -418,16 +442,17 @@ async def get_current_voice_channel_instance(context):
     return voice_channel
 
 BEAUTIFULSONGS = {
-    'biscuit': '/ButteryBiscuitBot/pythbot/Music/ButteryBiscuitBase.mp3',
-    'washington': '/ButteryBiscuitBot/pythbot/Music/Washington.mp3',
-    'yes': './Music/aoe2Taunts/yes.mp3',
-    'no': './Music/aoe2Taunts/no.mp3',
-    'allhail': './Music/aoe2Taunts/allhail.mp3',
-    'oooh': './Music/aoe2Taunts/oooh.mp3',
-    'isp': './Music/aoe2Taunts/blameyourisp.mp3',
-    '2hours': './Music/aoe2Taunts/2hours.mp3',
-    'start': './Music/aoe2Taunts/startthegame.mp3',
-    'wololo': './Music/aoe2Taunts/wololo.mp3',
+    'biscuit': '/pythbot/Buttery_Biscuit_Bot/Music/ButteryBiscuitBase.mp3',
+    'washington': '/pythbot/Buttery_Biscuit_Bot/Music/Washington.mp3',
+    'yes': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/yes.mp3',
+    'no': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/no.mp3',
+    'allhail': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/allhail.mp3',
+    'oooh': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/oooh.mp3',
+    'isp': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/blameyourisp.mp3',
+    '2hours': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/2hours.mp3',
+    'start': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/startthegame.mp3',
+    'wololo': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/wololo.mp3',
+    'snout': '/pythbot/Buttery_Biscuit_Bot/Music/snout.mp3'
 }
 
 VALIDTEXTCHANNELS = [

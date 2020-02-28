@@ -32,9 +32,9 @@ load_dotenv()
 token = os.getenv('DISCORD_TOKEN')                                          # Storing the token in a separate env file that won't be on GitHub - for security.
 bot = commands.Bot(command_prefix = "!")
 
-vnumber = '0.0.1.9 alpha'
     # this is the top version number, only thing that needs to be updated for !version to be up to date
     # please edit this anytime an update is made!
+vnumber = '0.0.1.9 alpha'
 pnotes = vnumber + '\n added version and patch notes commands \n !version will now print the current version number (note this needs to be changed manually in the code) \n !patchnotes will now print the current patch notes (also need to be changed manually) \n Added proper error handling for if user calls bot but is not in a voicechannel \n Working on implementing timestamping for logging purposes\n Working on adding shortbiscuit command to play snippet of biscuit \n Can now display images in chat, currently only !chrispenis and !biscuitfaces work'
     # same as vnumber this is where the text for patch notes goes, please update this (also don't let it get too long maybe only the most recent build?)
 
@@ -185,6 +185,81 @@ async def pepperoni(channel):
 #------------------------------Mp3 command zone!-----------------------------
 
 """
+This whole section is just AOE2 Taunts
+"""
+@bot.command(
+    name = 'yes',
+    aliases = ['Yes'],
+    description = '',
+    pass_context = True,
+)
+async def AOE2_Yes(context):
+    await playMP3(beautifulSongsDict['yes'], validChannelNames, context)
+
+@bot.command(
+    name = 'no',
+    aliases = ['No'],
+    description = '',
+    pass_context = True,
+)
+async def AOE2_No(context):
+    await playMP3(beautifulSongsDict['no'], validChannelNames, context)
+
+@bot.command(
+    name = 'allhail',
+    aliases = ['AllHail'],
+    description = '',
+    pass_context = True,
+)
+async def AOE2_AllHail(context):
+    await playMP3(beautifulSongsDict['allhail'], validChannelNames, context)
+
+@bot.command(
+    name = 'oooh',
+    aliases = ['Oooh'],
+    description = '',
+    pass_context = True,
+)
+async def AOE2_Oooh(context):
+    await playMP3(beautifulSongsDict['oooh'], validChannelNames, context)
+
+@bot.command(
+    name = 'isp',
+    aliases = ['ISP'],
+    description = '',
+    pass_context = True,
+)
+async def AOE2_BlameYourIsp(context):
+    await playMP3(beautifulSongsDict['isp'], validChannelNames, context)
+
+@bot.command(
+    name = 'start',
+    aliases = ['Start'],
+    description = '',
+    pass_context = True,
+)
+async def AOE2_StartTheGame(context):
+    await playMP3(beautifulSongsDict['start'], validChannelNames, context)
+
+@bot.command(
+    name = '2hours',
+    aliases = [''],
+    description = '',
+    pass_context = True,
+)
+async def AOE2_YouPlay2HoursTwoDieLikeThat(context):
+    await playMP3(beautifulSongsDict['2hours'], validChannelNames, context)
+
+@bot.command(
+    name = 'wololo',
+    aliases = ['Wololo'],
+    description = '',
+    pass_context = True,
+)
+async def AOE2_Wololo(context):
+    await playMP3(beautifulSongsDict['wololo'], validChannelNames, context)
+
+"""
 Washington
 """
 @bot.command(
@@ -252,7 +327,15 @@ async def getCurrentVoiceChannelInstance(context):
 
 beautifulSongsDict = {
     'biscuit': '/ButteryBiscuitBot/pythbot/Music/ButteryBiscuitBase.mp3',
-    'washington': '/ButteryBiscuitBot/pythbot/Music/Washington.mp3'
+    'washington': '/ButteryBiscuitBot/pythbot/Music/Washington.mp3',
+    'yes': './Music/AOE2Taunts/yes.mp3',
+    'no': './Music/AOE2Taunts/no.mp3',
+    'allhail': './Music/AOE2Taunts/allhail.mp3',
+    'oooh': './Music/AOE2Taunts/oooh.mp3',
+    'isp': './Music/AOE2Taunts/blameyourisp.mp3',
+    '2hours': './Music/AOE2Taunts/2hours.mp3',
+    'start': './Music/AOE2Taunts/startthegame.mp3',
+    'wololo': './Music/AOE2Taunts/wololo.mp3',
 }
 
 validChannelNames = [

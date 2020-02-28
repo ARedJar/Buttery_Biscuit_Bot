@@ -19,14 +19,13 @@ Or for the server:
 python3.8 ButteryBiscuitBot.py
 """
 
-# Version 0.1.1.4
-
 import os
 
 import discord
 from discord.ext import commands
 
 import asyncio                                                              # Needed for coroutine / await functionality, which discord.py is built around.
+import datetime                                                             # Date and time function, for some prelim console logging I'm planning on doing -Jon
 
 from dotenv import load_dotenv
 
@@ -34,23 +33,34 @@ from dotenv import load_dotenv
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')                                          # Storing the token in a separate env file that won't be on GitHub - for security.
 bot = commands.Bot(command_prefix = "!")
+timestamp = datetime.datetime.now() 
+vnumber = '0.0.1.8 alpha'
+    # this is the top version number, only thing that needs to be updated for !version to be up to date
+    # please edit this anytime an update is made!
+pnotes = vnumber + '\n added version and patch notes commands \n !version will now print the current version number (note this needs to be changed manually in the code) \n !patchnotes will now print the current patch notes (also need to be changed manually) \n Added proper error handling for if user calls bot but is not in a voicechannel \n Working on implementing timestamping for logging purposes\n Working on adding shortbiscuit command to play snippet of biscuit \n Can now display images in chat, currently only !chrispenis and !biscuitfaces work'
+    # same as vnumber this is where the text for patch notes goes, please update this (also don't let it get too long maybe only the most recent build?)
 
-
-#Print a message to console to verify that bot is activated / connected to discord.
+"""
+Print a message to console to verify that bot is activated / connected to discord.
+"""
 @bot.event
 async def on_ready():
     print(f'{bot.user} has connected to Discord!')
 
-
-#Activates on chat messages; should be a switch but python doesn't support them so it'd have to be like a dictionary, which may be tricky to implement with 'hell' (for which I'd like to retain the ability to work anywhere in the message)
-#Can also consider a function for a user prompt like 'when I say <arg1> you say <arg2>'
+"""
+Activates on chat messages; should be a switch but python doesn't support them so it'd have to be like a dictionary, which may be tricky to implement with 'hell' (for which I'd like to retain the ability to work anywhere in the message)
+Can also consider a function for a user prompt like 'when I say <arg1> you say <arg2>'
+"""
 @bot.event
 async def on_message(message):
+    # TODO mdman2014 2/23/2020 - check that the author it either a quaid or a duckling, no outsiders
     if message.author == bot.user:                         # Prevent the bot from replying to itself ad-infinitum, in case we ever create a recursive reply.
         return
     
+    standardizedMessage = message.content.lower()
+
     for key in callResponseDict:
-        if key in message.content.lower():
+        if key in standardizedMessage:
             resp = callResponseDict[key]
             await message.channel.send(resp)
 
@@ -65,9 +75,78 @@ callResponseDict = {
     'kiddy': 'hey there ya dingus'
 }
 
+"""
+defines version command so we can call vnumber in chat to see what's currently live
+I don't know if I need to pass context here, I also actually don't know what description does
+i'm sure this could be improved in lots of ways so have at it, I barely understand what's happening -Jon
+"""
+@bot.command(
+    name = 'version',
+    aliases = ['Version'],
+    description = 'what does this do',
+    pass_context = True,
+)
+async def version(ctx):
+    # i'm using ctx here instead of other names because message gave me an error, I don't really understand this so if it can be improved go for it -Jon
+    await ctx.message.channel.send(vnumber)
+    # print(str(timestamp()), 'version command called')
+    # does not work currently, can't be assed to figure out why atm
+
+"""
+defines patchnotes command so we can call pnotes to get updated patch notes 
+"""   
+@bot.command(
+    name = 'patchnotes',
+    aliases = ['Patchnotes', 'PatchNotes'],
+    description = 'what does this do',
+    pass_context = True,
+)
+async def patchnotes(ctx):
+    await ctx.message.channel.send(pnotes)
+
+"""
+ChrisPenis
+"""
+@bot.command(
+    name = 'chrispenis',
+    aliases = ['ChrisPenis', 'Chrispenis'],
+    description = 'Cool wafers to desired...',
+    pass_context = True,
+)
+async def chrispenis(channel):
+    await channel.send(file=discord.File('/ButteryBiscuitBot/pythbot/pictures/chrispenis.jpg'))
+    # this sends the file directly to discord, there is a way to do so with filelike objects (dunno what those are) but I couldn't get it to work
+    
+"""
+biscuitfaces
+"""
+@bot.command(
+    name = 'biscuitface',
+    aliases = ['biscuitfaces', 'BiscuitFace', 'BiscuitFaces'],
+    description = 'They are buttery...',
+    pass_context = True,
+)
+async def biscuitface(channel):
+    await channel.send(file=discord.File('/ButteryBiscuitBot/pythbot/pictures/biscuitface.jpg'))
+    
+"""
+pepperoni
+"""
+@bot.command(
+    name = 'pepperoni',
+    aliases = ['Pepperoni', 'heyyotony', 'freshpepperoni', 'cleverthoughts', 'CleverThoughts'],
+    description = 'Hey yo tony, whered you get that fresh pepperoni',
+    pass_context = True,
+)
+async def pepperoni(channel):
+    await channel.send(file=discord.File('/ButteryBiscuitBot/pythbot/pictures/pepperoni.png'))
+
+
 #------------------------------Mp3 command zone!-----------------------------
 
-#Washington
+"""
+Washington
+"""
 @bot.command(
     name = 'washington',
     aliases = ['Washington'],
@@ -77,7 +156,9 @@ callResponseDict = {
 async def washington(context):
     await playMP3(beautifulSongsDict['washington'], validChannelNames, context)
 
-#ButteryBiscuitBase
+"""
+ButteryBiscuitBase
+"""
 @bot.command(
     name = 'biscuit',
     aliases = ['Biscuit'],
@@ -86,6 +167,19 @@ async def washington(context):
 )
 async def biscuit(context):
     await playMP3(beautifulSongsDict['biscuit'], validChannelNames, context)
+
+"""
+ButteryBiscuitShort
+plays the opening riff from ButteryBiscuitBase
+"""
+@bot.command(
+    name = 'shortbiscuit',
+    aliases = ['ShortBiscuit'],
+    description = 'All your biscuit...',
+    pass_context = True,
+)
+async def shortbiscuit(context):
+    await playMP3(beautifulSongsDict['shortbiscuit'], validChannelNames, context)
 
 async def playMP3(mp3FilePath, channelNames, context):
     # Only play music if user is in a voice channel
@@ -117,8 +211,8 @@ async def getCurrentVoiceChannelInstance(context):
     return voice_channel
 
 beautifulSongsDict = {
-    'biscuit': './Music/ButteryBiscuitBase.mp3',
-    'washington': './Music/Washington.mp3'
+    'biscuit': '/ButteryBiscuitBot/pythbot/Music/ButteryBiscuitBase.mp3',
+    'washington': '/ButteryBiscuitBot/pythbot/Music/Washington.mp3'
 }
 
 validChannelNames = [

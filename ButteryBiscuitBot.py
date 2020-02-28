@@ -444,14 +444,14 @@ async def get_current_voice_channel_instance(context):
 BEAUTIFULSONGS = {
     'biscuit': '/pythbot/Buttery_Biscuit_Bot/Music/ButteryBiscuitBase.mp3',
     'washington': '/pythbot/Buttery_Biscuit_Bot/Music/Washington.mp3',
-    'yes': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/yes.mp3',
-    'no': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/no.mp3',
-    'allhail': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/allhail.mp3',
-    'oooh': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/oooh.mp3',
-    'isp': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/blameyourisp.mp3',
-    '2hours': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/2hours.mp3',
-    'start': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/startthegame.mp3',
-    'wololo': '/pythbot/Buttery_Biscuit_Bot/Music/aoe2Taunts/wololo.mp3',
+    'yes': '/pythbot/Buttery_Biscuit_Bot/Music/AOE2Taunts/yes.mp3',
+    'no': '/pythbot/Buttery_Biscuit_Bot/Music/AOE2Taunts/no.mp3',
+    'allhail': '/pythbot/Buttery_Biscuit_Bot/Music/AOE2Taunts/allhail.mp3',
+    'oooh': '/pythbot/Buttery_Biscuit_Bot/Music/AOE2Taunts/oooh.mp3',
+    'isp': '/pythbot/Buttery_Biscuit_Bot/Music/AOE2Taunts/blameyourisp.mp3',
+    '2hours': '/pythbot/Buttery_Biscuit_Bot/Music/AOE2Taunts/2hours.mp3',
+    'start': '/pythbot/Buttery_Biscuit_Bot/Music/AOE2Taunts/startthegame.mp3',
+    'wololo': '/pythbot/Buttery_Biscuit_Bot/Music/AOE2Taunts/wololo.mp3',
     'snout': '/pythbot/Buttery_Biscuit_Bot/Music/snout.mp3'
 }
 

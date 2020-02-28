@@ -20,20 +20,18 @@ python3.8 ButteryBiscuitBot.py
 """
 
 import os
-
 import discord
 from discord.ext import commands
+from dotenv import load_dotenv
 
 import asyncio                                                              # Needed for coroutine / await functionality, which discord.py is built around.
-import datetime                                                             # Date and time function, for some prelim console logging I'm planning on doing -Jon
-
-from dotenv import load_dotenv
+from datetime import datetime, date, time                                   # Date and time function, for some prelim console logging I'm planning on doing -Jon
 
 #Initialize Bot
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')                                          # Storing the token in a separate env file that won't be on GitHub - for security.
 bot = commands.Bot(command_prefix = "!")
-timestamp = datetime.datetime.now() 
+
 vnumber = '0.0.1.8 alpha'
     # this is the top version number, only thing that needs to be updated for !version to be up to date
     # please edit this anytime an update is made!
@@ -48,8 +46,21 @@ async def on_ready():
     print(f'{bot.user} has connected to Discord!')
 
 """
-Activates on chat messages; should be a switch but python doesn't support them so it'd have to be like a dictionary, which may be tricky to implement with 'hell' (for which I'd like to retain the ability to work anywhere in the message)
-Can also consider a function for a user prompt like 'when I say <arg1> you say <arg2>'
+For a set of given messages, the bot responds with pre-defined responses in the "callResponseDict"
+
+Parameters
+----------
+first : string
+    The message any given user has typed into any text channel this bot can access
+
+Returns
+-------
+string
+    The appropriate response for a given "call" from a message
+
+Raises
+------
+Does Not Error
 """
 @bot.event
 async def on_message(message):
@@ -75,25 +86,52 @@ callResponseDict = {
     'kiddy': 'hey there ya dingus'
 }
 
+
 """
-defines version command so we can call vnumber in chat to see what's currently live
-I don't know if I need to pass context here, I also actually don't know what description does
-i'm sure this could be improved in lots of ways so have at it, I barely understand what's happening -Jon
+Allows the user to tell what version is currently running
+
+Parameters
+----------
+first : Context
+    The context of the text channel in which the command was raised
+
+Returns
+-------
+string
+    The version of the bot and timestamp of the call
+
+Raises
+------
+Does Not Error
 """
 @bot.command(
     name = 'version',
     aliases = ['Version'],
-    description = 'what does this do',
+    description = '',
     pass_context = True,
 )
 async def version(ctx):
-    # i'm using ctx here instead of other names because message gave me an error, I don't really understand this so if it can be improved go for it -Jon
     await ctx.message.channel.send(vnumber)
-    # print(str(timestamp()), 'version command called')
-    # does not work currently, can't be assed to figure out why atm
+    currentTimestamp = datetime.now()
+    currentTimestamp_string = currentTimestamp.strftime("%d/%m/%Y %H:%M:%S")
+    await ctx.message.channel.send(currentTimestamp_string)
 
 """
-defines patchnotes command so we can call pnotes to get updated patch notes 
+Allows the user to retrieve the updated patch notes
+
+Parameters
+----------
+first : Context
+    The context of the text channel in which the command was raised
+
+Returns
+-------
+string
+    The patchnotes for the most recent release
+
+Raises
+------
+Does Not Error
 """   
 @bot.command(
     name = 'patchnotes',
@@ -103,6 +141,8 @@ defines patchnotes command so we can call pnotes to get updated patch notes
 )
 async def patchnotes(ctx):
     await ctx.message.channel.send(pnotes)
+
+#------------------------------Picture Zone!-----------------------------
 
 """
 ChrisPenis

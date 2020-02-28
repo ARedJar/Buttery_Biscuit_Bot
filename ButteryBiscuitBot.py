@@ -32,7 +32,7 @@ load_dotenv()
 token = os.getenv('DISCORD_TOKEN')                                          # Storing the token in a separate env file that won't be on GitHub - for security.
 bot = commands.Bot(command_prefix = "!")
 
-vnumber = '0.0.1.8 alpha'
+vnumber = '0.0.1.9 alpha'
     # this is the top version number, only thing that needs to be updated for !version to be up to date
     # please edit this anytime an update is made!
 pnotes = vnumber + '\n added version and patch notes commands \n !version will now print the current version number (note this needs to be changed manually in the code) \n !patchnotes will now print the current patch notes (also need to be changed manually) \n Added proper error handling for if user calls bot but is not in a voicechannel \n Working on implementing timestamping for logging purposes\n Working on adding shortbiscuit command to play snippet of biscuit \n Can now display images in chat, currently only !chrispenis and !biscuitfaces work'
